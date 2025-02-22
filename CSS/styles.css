@@ -15,10 +15,11 @@ body{
     display: flex;
     justify-content: space-between;
     margin: 20px 0;
-     border-bottom: 1px dashed black;
+     border-bottom: 1px dashed grey;
 }
+
  .city :last-child{
-    border: none;
+    border-bottom: none;
  }
 
 .time{
@@ -37,7 +38,7 @@ font-weight: bold;
    vertical-align: middle; 
 }
 
-select{
+.select{
     display: block;
     width: 10px;
     font-size: 10px;
