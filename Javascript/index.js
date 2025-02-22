@@ -1,6 +1,3 @@
-alert("hie")
-const moment = require("moment");
-
 let capeTownElement=document.querySelector("#cape-town");
 let capeTownDateElement=capeTownElement.querySelector(".date");
 let capeTownTimeElement=capeTownElement.querySelector(".time");
