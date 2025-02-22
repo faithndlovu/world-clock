@@ -1,4 +1,5 @@
-let moment = require("moment");
+const moment = require("moment");
+let moment= require(moment.tz);
 
 let capeTownElement=document.querySelector("#cape-town");
 let capeTownDateElement=capeTownElement.querySelector(".date");
