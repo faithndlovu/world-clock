@@ -16,6 +16,7 @@ body{
     justify-content: space-between;
     margin: 20px 0;
      border-bottom: 1px dashed grey;
+     padding: 20px 0;
 }
 
  .city:last-child{
@@ -40,10 +41,10 @@ font-weight: bold;
 
 .select{
     display: block;
-    width: 10px;
+    width: 100%;
     font-size: 10px;
-    border-radius: 4px;
-    padding: 20px;
+    border-radius: 5px;
+    padding: 10px;
 }
 
  h1{
