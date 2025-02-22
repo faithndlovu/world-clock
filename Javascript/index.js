@@ -16,5 +16,16 @@ let johannesburgTime= moment().tz("Africa/Johannesburg");
 johannesburgDateElement.innerHTML=johannesburgTime.format("MMMM Do YYYY");
 johannesburgTimeElement.innerHTML=`${johannesburgTime.format("h:mm:ss")}<small>${capeTownTime.format("A")}</small>`;
 }
+
+function updateCity(event){
+    let cityTimeZone= event.target.value;
+    let cityTime =moment().tz(cityTimeZone);
+    let citiesElement= document.querySelector("#cities");
+    citiesElement.innerHTML= "Hello";
+}
 updateTime();
 setInterval(updateTime, 1000);
+
+
+let citiesSelect= document.querySelector("#city")
+citiesSelectElement.addEventListener("change", updateCity);
