@@ -1,5 +1,5 @@
 body{
-    background-color: peachpuff;
+    background-color: gainsboro;
     font-family: sans-serif;
 }
 .container{
@@ -38,7 +38,7 @@ font-weight: bold;
    vertical-align: middle; 
 }
 
-.select{
+select{
     display: block;
     width: 10px;
     font-size: 10px;
