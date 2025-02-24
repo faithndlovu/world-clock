@@ -22,7 +22,7 @@ function updateTime(){
     
     function updateCity(event) {
         let cityTimeZone = event.target.value;
-        let cityName= cityTimeZone.replace("_", " ").split("/")[1];
+        let cityName= cityTimeZone.split("/")[1].replace("_", " ");
         let cityTime = moment().tz(cityTimeZone);
         let citiesElement = document.querySelector("#cities");
         citiesElement.innerHTML = `<div class="city">
@@ -39,5 +39,5 @@ function updateTime(){
     setInterval(updateTime, 1000);
     
     
-    let citiesSelect= document.querySelector("#city")
+    let citiesSelect= document.querySelector("#city");
     citiesSelect.addEventListener("change", updateCity);
