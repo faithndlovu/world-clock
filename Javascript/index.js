@@ -34,6 +34,7 @@ function updateCity(event) {
 </div>
 </div>`;
 }
+
 updateTime();
 setInterval(updateTime, 1000);
 
