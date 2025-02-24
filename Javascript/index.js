@@ -9,7 +9,7 @@ function updateTime(){
     capeTownTimeElement.innerHTML = capeTownTime.format("h:mm:ss [<small>]A[</small>]");
     }
 }
-
+/*
     let johannesburgElement=document.querySelector("#johannesburg");
     if (johannesburgElement) {
     let johannesburgDateElement=johannesburgElement.querySelector(".date");
@@ -19,11 +19,11 @@ function updateTime(){
     johannesburgDateElement.innerHTML=johannesburgTime.format("MMMM Do YYYY");
     johannesburgTimeElement.innerHTML=`${johannesburgTime.format("h:mm:ss")}<small>${capeTownTime.format("A")}</small>`;
     }
-    
+    */
     
     function updateCity(event) {
         let cityTimeZone = event.target.value;
-        if (cityTimeZine ==="current"){
+        if (cityTimeZine === "current"){
             cityTimeZone = moment.tz.guess();
         }
         let cityName= cityTimeZone.split("/")[1].replace("_", " ");
