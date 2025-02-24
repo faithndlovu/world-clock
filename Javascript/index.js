@@ -1,45 +1,43 @@
-function formatCityTime(cityTime) {
-    return {
-      date: cityTime.format("MMMM Do YYYY"),
-      time: `${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small>`,
-    };
-  }
-  
-  function updateTime() {
-    const cityElements = document.querySelectorAll(".city");
-    cityElements.forEach((cityElement) => {
-      const timeZone = cityElement.dataset.timezone;
-      const cityTime = moment().tz(timeZone);
-      const { date, time } = formatCityTime(cityTime);
-      cityElement.querySelector(".date").innerHTML = date;
-      cityElement.querySelector(".time").innerHTML = time;
-    });
-  }
-  
-  function updateCity(event) {
-    const cityTimeZone = event.target.value;
-    if (!cityTimeZone) return; // Prevent adding empty city
-  
-    const cityName = cityTimeZone.replace("_", " ").split("/")[1];
-    const cityTime = moment().tz(cityTimeZone);
-    const { date, time } = formatCityTime(cityTime);
-  
-    const citiesElement = document.querySelector("#cities");
-    const newCityDiv = document.createElement("div");
-    newCityDiv.classList.add("city");
-    newCityDiv.dataset.timezone = cityTimeZone; // Store timezone in data attribute
-    newCityDiv.innerHTML = `
-      <div>
-        <h2>${cityName}</h2>
-        <div class="date">${date}</div>
-      </div>
-      <div class="time">${time}</div>
-    `;
-    citiesElement.appendChild(newCityDiv);
-  }
-  
-  updateTime();
-  setInterval(updateTime, 1000);
-  
-  const citiesSelect = document.querySelector("#city");
-  citiesSelect.addEventListener("change", updateCity);
+function updateTime(){
+    let capeTownElement = document.querySelector("#cape-town");
+    if (capeTownElement) {
+    let capeTownDateElement = capeTownElement.querySelector(".date");
+    let capeTownTimeElement = capeTownElement.querySelector(".time");
+    let capeTownTime= moment().tz("Africa/Cape_Town");
+    
+    capeTownDateElement.innerHTML = capeTownTime.format("MMMM Do YYYY");
+    capeTownTimeElement.innerHTML = capeTownTime.format("h:mm:ss [<small>]A[</small>]");
+    }
+    
+    let johannesburgElement=document.querySelector("#johannesburg");
+    if (johannesburgElement) {
+    let johannesburgDateElement=johannesburgElement.querySelector(".date");
+    let johannesburgTimeElement=johannesburgElement.querySelector(".time");
+    let johannesburgTime= moment().tz("Africa/Johannesburg");
+    
+    johannesburgDateElement.innerHTML=johannesburgTime.format("MMMM Do YYYY");
+    johannesburgTimeElement.innerHTML=`${johannesburgTime.format("h:mm:ss")}<small>${capeTownTime.format("A")}</small>`;
+    }
+    }
+    
+    function updateCity(event) {
+        let cityTimeZone = event.target.value;
+        let cityName= cityTimeZone.replace("_", " ").split("/")[1];
+        let cityTime = moment().tz(cityTimeZone);
+        let citiesElement = document.querySelector("#cities");
+        citiesElement.innerHTML = `<div class="city">
+        <div>
+            <h2>${cityName}</h2>
+            <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
+        </div>
+        <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small>
+    </div>
+    </div>`;
+    }
+    
+    updateTime();
+    setInterval(updateTime, 1000);
+    
+    
+    let citiesSelect= document.querySelector("#city")
+    citiesSelect.addEventListener("change", updateCity);
