@@ -18,7 +18,7 @@ function updateCity(event) {
 
     // Handle "My current location" selection
     if (cityTimeZone === "current") {
-        cityTimeZone = moment.tz.guess() || "UTC"; // Detect user's timezone or fallback to UTC
+        cityTimeZone = moment.tz.guess() ; // Detect user's timezone or fallback to UTC
     }
 
     // Extract city name safely
