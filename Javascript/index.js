@@ -25,10 +25,10 @@ function updateTime(){
         let cityTimeZone = event.target.value;
 
         if (cityTimeZone === "current"){
-            cityTimeZone = moment.tz.guess() || "UTC";
+            cityTimeZone = moment.tz.guess();
         }
 
-        let cityName= cityTimeZone.split("/")[1].replace("_", " ");
+        let cityName= cityTimeZone.split("/")[1]?.replace("_", " ")  || "Unknown City";
         let cityTime = moment().tz(cityTimeZone);
         let citiesElement = document.querySelector("#cities");
         citiesElement.innerHTML = `<div class="city">
