@@ -3,25 +3,28 @@ function updateTime() {
     if (capeTownElement) {
         let capeTownDateElement = capeTownElement.querySelector(".date");
         let capeTownTimeElement = capeTownElement.querySelector(".time");
-        let capeTownTime = moment().tz("Africa/Johannesburg"); // Corrected timezone
+        let capeTownTime = moment().tz("Africa/Johannesburg"); // Correct timezone
 
         capeTownDateElement.innerHTML = capeTownTime.format("MMMM Do YYYY");
-        capeTownTimeElement.innerHTML = capeTownTime.format("h:mm:ss A");
+        capeTownTimeElement.innerHTML = capeTownTime.format("h:mm:ss") + 
+            `<small> ${capeTownTime.format("A")}</small>`;
     }
 }
 
-let intervalId; // To store the interval and prevent multiple timers
+let intervalId; // Store interval ID to prevent multiple timers
 
 function updateCity(event) {
     let cityTimeZone = event.target.value;
 
     // Handle "My current location" selection
     if (cityTimeZone === "current") {
-        cityTimeZone = moment.tz.guess() || "Bulawayo"; // Default to UTC if undefined
+        cityTimeZone = moment.tz.guess() || "UTC"; // Detect user's timezone or fallback to UTC
     }
 
     // Extract city name safely
-    let cityName = cityTimeZone.includes("/") ? cityTimeZone.split("/")[1].replace("_", " ") : cityTimeZone;
+    let cityName = cityTimeZone.includes("/") 
+        ? cityTimeZone.split("/")[1].replace("_", " ") 
+        : cityTimeZone;
 
     let citiesElement = document.querySelector("#cities");
 
@@ -32,7 +35,7 @@ function updateCity(event) {
                 <h2>${cityName}</h2>
                 <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
             </div>
-            <div class="time">${cityTime.format("h:mm:ss A")}</div>
+            <div class="time">${cityTime.format("h:mm:ss")}<small> ${cityTime.format("A")}</small></div>
         </div>`;
     }
 
