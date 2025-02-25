@@ -17,7 +17,7 @@ function updateCity(event) {
 
     // Handle "My current location" selection
     if (cityTimeZone === "current") {
-        cityTimeZone = moment.tz.guess() || "UTC"; // Default to UTC if undefined
+        cityTimeZone = moment.tz.guess() || "Bulawayo"; // Default to UTC if undefined
     }
 
     // Extract city name safely
