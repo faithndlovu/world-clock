@@ -1,3 +1,17 @@
+// Mapping of timezones to country names
+const timezoneToCountry = {
+    "Africa/Lusaka": "Zambia",
+    "Africa/Blantyre": "Malawi",
+    "Europe/London": "United Kingdom",
+    "Africa/Johannesburg": "South Africa",
+    "Africa/Harare": "Zimbabwe",
+    "Africa/Lagos": "Nigeria",
+    "Africa/Cairo": "Egypt",
+    "Asia/Dubai": "United Arab Emirates",
+    "America/New_York": "USA",
+    "Asia/Tokyo": "Japan"
+};
+
 function updateTime() {
     let capeTownElement = document.querySelector("#cape-town");
     if (capeTownElement) {
@@ -18,10 +32,13 @@ function updateCity(event) {
 
     // Handle "My current location" selection
     if (cityTimeZone === "current") {
-        cityTimeZone = moment.tz.guess() ; // Detect user's timezone or fallback to UTC
+        cityTimeZone = moment.tz.guess() || "UTC"; // Detect user's timezone or fallback to UTC
     }
 
-    // Extract city name safely
+    // Get country name from the mapping or set a default
+    let countryName = timezoneToCountry[cityTimeZone] || "Unknown Location";
+
+    // Extract city name safely from timezone
     let cityName = cityTimeZone.includes("/") 
         ? cityTimeZone.split("/")[1].replace("_", " ") 
         : cityTimeZone;
@@ -32,7 +49,7 @@ function updateCity(event) {
         let cityTime = moment().tz(cityTimeZone);
         citiesElement.innerHTML = `<div class="city">
             <div>
-                <h2>${cityName}</h2>
+                <h2>${cityName}, ${countryName}</h2> <!-- Display City and Country -->
                 <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
             </div>
             <div class="time">${cityTime.format("h:mm:ss")}<small> ${cityTime.format("A")}</small></div>
@@ -54,3 +71,4 @@ setInterval(updateTime, 1000);
 // Event listener for city selection
 let citiesSelect = document.querySelector("#city");
 citiesSelect.addEventListener("change", updateCity);
+
