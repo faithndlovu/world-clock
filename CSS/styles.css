@@ -2,15 +2,16 @@ body{
     background: linear-gradient(to right, #F5F5F5, #B9F6CA, #F48FB1);
     font-family: sans-serif;
 }
-.container{
+.container {
+    width: 90%;
     max-width: 600px;
-    margin: 60px auto;
     padding: 30px;
-    box-shadow:rgba(100, 100, 111, 02) 0px 7px 29px 0px;    
-     border-radius: 10px;
-    background-color: (#CBEFEC); 
-    backdrop-filter: blur(15px); 
-    -webkit-backdrop-filter: blur(15px);
+    text-align: center;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .city{
