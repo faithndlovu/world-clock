@@ -26,22 +26,21 @@ async function detectLocation() {
 
         let citiesElement = document.querySelector("#cities");
 
-        citiesElement.innerHTML = `
+        citiesElement.innerHTML = 
             <div class="city">
                 <div>
-                    <h2>${cityName}</h2>
-                    <p style="font-size: 14px; color: gray;">Timezone: ${timezone}</p>
-                    <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
+                    <h2> ${cityName}</h2>
+                 <p style="font-size: 14px; color: gray;">Timezone: ${timezone}</p>
+                  <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
                 </div>
                 <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small></div>
-            </div>`;
+            </div>;
     } catch (error) {
         console.error("Error fetching location:", error);
         alert("Could not detect your exact location. Using default timezone.");
-        updateTime("Africa/Cape_Town", "Cape Town"); // Fallback to default Cape Town
+        updateTime();
     }
 }
-
 // Function to update the city when the user selects one
 function updateCity(event) {
     let cityTimeZone = event.target.value;
@@ -60,7 +59,7 @@ function updateCity(event) {
 
 // Initial setup
 window.onload = function() {
-    // Set default city (Cape Town or Gwanda) on page load
+    // Set default city (Cape Town) on page load
     updateTime("Africa/Cape_Town", "Cape Town"); // Set Cape Town as default
     
 
