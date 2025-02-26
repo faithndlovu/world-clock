@@ -1,28 +1,17 @@
 // Function to update time for the selected city
 function updateTime(cityTimeZone, cityName) {
-    let cityId = cityName.toLowerCase().replace(/\s+/g, "-");
+    let citiesElement = document.querySelector("#cities");
     let cityTime = moment().tz(cityTimeZone);
 
-    let cityElement = document.querySelector(`#${cityId}`);
-
-    if (!cityElement) {
-        let citiesElement = document.querySelector("#cities");
-        let newCityDiv = document.createElement("div");
-        newCityDiv.classList.add("city");
-        newCityDiv.id = cityId;
-        newCityDiv.innerHTML = `
+    citiesElement.innerHTML = `
+        <div class="city">
             <div>
                 <h2>${cityName}</h2>
                 <p class="timezone">Timezone: ${cityTimeZone}</p>
                 <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
             </div>
             <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small></div>
-        `;
-        citiesElement.appendChild(newCityDiv);
-    } else {
-        cityElement.querySelector(".date").innerHTML = cityTime.format("MMMM Do YYYY");
-        cityElement.querySelector(".time").innerHTML = `${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small>`;
-    }
+        </div>`;
 }
 
 // Function to detect city using IP and update time
@@ -32,13 +21,24 @@ async function detectLocation() {
         let data = await response.json();
 
         let cityName = data.city;
-        let timezone = data.timezone; // Use actual timezone from API
+        let timezone = moment.tz.guess();
+        let cityTime = moment().tz(timezone);
 
-        updateTime(timezone, cityName);
+        let citiesElement = document.querySelector("#cities");
+
+        citiesElement.innerHTML = `
+            <div class="city">
+                <div>
+                    <h2>${cityName}</h2>
+                    <p style="font-size: 14px; color: gray;">Timezone: ${timezone}</p>
+                    <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
+                </div>
+                <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small></div>
+            </div>`;
     } catch (error) {
         console.error("Error fetching location:", error);
-        alert("Could not detect your exact location. Using default Cape Town.");
-        updateTime("Africa/Cape_Town", "Cape Town"); // Fallback to Cape Town
+        alert("Could not detect your exact location. Using default timezone.");
+        updateTime("Africa/Cape_Town", "Cape Town"); // Fallback to default Cape Town
     }
 }
 
@@ -47,7 +47,7 @@ function updateCity(event) {
     let cityTimeZone = event.target.value;
 
     if (cityTimeZone === "current") {
-        detectLocation(); // Detect user's location
+        detectLocation(); // Detect exact location
         return;
     }
 
@@ -60,20 +60,19 @@ function updateCity(event) {
 
 // Initial setup
 window.onload = function() {
-    // Set default cities (Cape Town & Gwanda) on page load
-    updateTime("Africa/Cape_Town", "Cape Town");
-    updateTime("Africa/Harare", "Gwanda"); // Gwanda shares timezone with Harare
+    // Set default city (Cape Town) on page load
+    updateTime("Africa/Cape_Town", "Cape Town"); // Set Cape Town as default
+    
 
-    // Start updating time every second
+    // Start updating the time every second
     setInterval(() => {
-        document.querySelectorAll(".city").forEach((cityElement) => {
-            let cityName = cityElement.querySelector("h2").textContent;
-            let timezone = cityElement.querySelector(".timezone").textContent.replace("Timezone: ", "");
-            updateTime(timezone, cityName);
-        });
+        let selectedCity = document.querySelector("#city").value || "Africa/Cape_Town";
+        let cityName = selectedCity.includes("/") ? selectedCity.split("/")[1].replace("_", " ") : selectedCity;
+        updateTime(selectedCity, cityName);
     }, 1000);
 };
 
 // Add event listener for city selection
 let citiesSelect = document.querySelector("#city");
 citiesSelect.addEventListener("change", updateCity);
+
