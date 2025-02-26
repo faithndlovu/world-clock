@@ -1,26 +1,17 @@
-body {
+body{
     background: linear-gradient(to right, #F5F5F5, #B9F6CA, #F48FB1);
     font-family: sans-serif;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0; /* Remove default body margin */
 }
-
-.container {
+.container{
     max-width: 600px;
+    margin: 60px auto;
     padding: 30px;
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.15); /* Increased transparency */
-    backdrop-filter: blur(20px); /* Stronger blur */
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); /* Stronger shadow for depth */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
-    text-align: center;
+    box-shadow:rgba(100, 100, 111, 02) 0px 7px 29px 0px;    
+     border-radius: 10px;
+    background-color: (#CBEFEC); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px);
 }
-
-
 
 .city{
     display: flex;
