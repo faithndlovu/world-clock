@@ -8,9 +8,7 @@ body{
     padding: 30px;
     box-shadow:rgba(100, 100, 111, 02) 0px 7px 29px 0px;    
      border-radius: 10px;
-    background: (#CBEFEC,
-    RGB (203, 239, 236),
-    CMYK (15, 0, 1, 6)); 
+    background-color: (#CBEFEC); 
     backdrop-filter: blur(15px); 
     -webkit-backdrop-filter: blur(15px);
 }
