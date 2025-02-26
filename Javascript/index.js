@@ -1,3 +1,24 @@
+function updateTime(){
+    let capeTownElement = document.querySelector("#cape-town");
+    if (capeTownElement) {
+        let capeTownDateElement = capeTownElement.querySelector(".date");
+        let capeTownTimeElement = capeTownElement.querySelector(".time");
+        let capeTownTime = moment().tz("Africa/Cape_Town");
+
+        capeTownDateElement.innerHTML = capeTownTime.format("MMMM Do YYYY");
+        capeTownTimeElement.innerHTML = capeTownTime.format("h:mm:ss [<small>]A[</small>]");
+        }
+
+        let gwandaElement = document.querySelector("#gwanda");
+    if (gwandaElement) {
+        let gwandaDateElement = gwandaElement.querySelector(".date");
+        let gwandaTimeElement = gwandaElement.querySelector(".time");
+        let gwandaTime = moment().tz("Africa/Gwanda");
+
+        gwandaDateElement.innerHTML = gwandaTime.format("MMMM Do YYYY");
+        gwandaTimeElement.innerHTML = gwandaTime.format("h:mm:ss [<small>]A[</small>]");
+        }
+        }
 // Function to update the current time
 function updateTime() {
     let defaultCityElement = document.querySelector("#default-city");
