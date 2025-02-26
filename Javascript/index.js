@@ -11,14 +11,14 @@ function updateTime() {
     }
 }
 
-let intervalId; // Store interval ID to prevent multiple timers
+let intervalId; 
 
 function updateCity(event) {
     let cityTimeZone = event.target.value;
 
-    // Handle "My current location" selection
+    
     if (cityTimeZone === "current") {
-        cityTimeZone = moment.tz.guess() || "Bulawayo"; // Detect user's timezone or fallback to UTC
+        cityTimeZone = moment.tz.guess; 
     }
 
     // Extract city name safely
