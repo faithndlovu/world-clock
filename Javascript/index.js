@@ -31,8 +31,8 @@ async function detectLocation() {
         citiesElement.innerHTML = `
             <div class="city">
                 <div>
-                    <h2>Current Location: ${cityName}</h2>
-                    <p class="timezone">Timezone: ${timezone}</p>
+                    <h2> ${cityName}</h2>
+                   
                     <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
                 </div>
                 <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small></div>
