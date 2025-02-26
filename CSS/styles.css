@@ -1,17 +1,24 @@
-body{
+body {
     background: linear-gradient(to right, #F5F5F5, #B9F6CA, #F48FB1);
     font-family: sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.container{
+
+.container {
     max-width: 600px;
-    margin: 60px auto;
     padding: 30px;
-    box-shadow:rgba(100, 100, 111, 02) 0px 7px 29px 0px;    
-     border-radius: 10px;
-    background-color: (#CBEFEC); 
-    backdrop-filter: blur(15px); 
-    -webkit-backdrop-filter: blur(15px);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent */
+    backdrop-filter: blur(15px); /* Blur effect */
+    -webkit-backdrop-filter: blur(15px); 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+    text-align: center;
 }
+
 
 .city{
     display: flex;
