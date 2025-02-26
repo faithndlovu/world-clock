@@ -1,17 +1,28 @@
 // Function to update time for the selected city
 function updateTime(cityTimeZone, cityName) {
-    let citiesElement = document.querySelector("#cities");
+    let cityId = cityName.toLowerCase().replace(/\s+/g, "-");
     let cityTime = moment().tz(cityTimeZone);
 
-    citiesElement.innerHTML = `
-        <div class="city">
+    let cityElement = document.querySelector(`#${cityId}`);
+
+    if (!cityElement) {
+        let citiesElement = document.querySelector("#cities");
+        let newCityDiv = document.createElement("div");
+        newCityDiv.classList.add("city");
+        newCityDiv.id = cityId;
+        newCityDiv.innerHTML = `
             <div>
                 <h2>${cityName}</h2>
                 <p class="timezone">Timezone: ${cityTimeZone}</p>
                 <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
             </div>
             <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small></div>
-        </div>`;
+        `;
+        citiesElement.appendChild(newCityDiv);
+    } else {
+        cityElement.querySelector(".date").innerHTML = cityTime.format("MMMM Do YYYY");
+        cityElement.querySelector(".time").innerHTML = `${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small>`;
+    }
 }
 
 // Function to detect city using IP and update time
@@ -21,32 +32,22 @@ async function detectLocation() {
         let data = await response.json();
 
         let cityName = data.city;
-        let timezone = moment.tz.guess();
-        let cityTime = moment().tz(timezone);
+        let timezone = data.timezone; // Use actual timezone from API
 
-        let citiesElement = document.querySelector("#cities");
-
-        citiesElement.innerHTML = 
-            <div class="city">
-                <div>
-                    <h2> ${cityName}</h2>
-                 <p style="font-size: 14px; color: gray;">Timezone: ${timezone}</p>
-                  <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
-                </div>
-                <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small></div>
-            </div>;
+        updateTime(timezone, cityName);
     } catch (error) {
         console.error("Error fetching location:", error);
-        alert("Could not detect your exact location. Using default timezone.");
-        updateTime();
+        alert("Could not detect your exact location. Using default Cape Town.");
+        updateTime("Africa/Cape_Town", "Cape Town"); // Fallback to Cape Town
     }
 }
+
 // Function to update the city when the user selects one
 function updateCity(event) {
     let cityTimeZone = event.target.value;
 
     if (cityTimeZone === "current") {
-        detectLocation(); // Detect exact location
+        detectLocation(); // Detect user's location
         return;
     }
 
@@ -59,15 +60,17 @@ function updateCity(event) {
 
 // Initial setup
 window.onload = function() {
-    // Set default city (Cape Town) on page load
-    updateTime("Africa/Cape_Town", "Cape Town"); // Set Cape Town as default
-    
+    // Set default cities (Cape Town & Gwanda) on page load
+    updateTime("Africa/Cape_Town", "Cape Town");
+    updateTime("Africa/Harare", "Gwanda"); // Gwanda shares timezone with Harare
 
-    // Start updating the time every second
+    // Start updating time every second
     setInterval(() => {
-        let selectedCity = document.querySelector("#city").value || "Africa/Cape_Town";
-        let cityName = selectedCity.includes("/") ? selectedCity.split("/")[1].replace("_", " ") : selectedCity;
-        updateTime(selectedCity, cityName);
+        document.querySelectorAll(".city").forEach((cityElement) => {
+            let cityName = cityElement.querySelector("h2").textContent;
+            let timezone = cityElement.querySelector(".timezone").textContent.replace("Timezone: ", "");
+            updateTime(timezone, cityName);
+        });
     }, 1000);
 };
 
