@@ -38,6 +38,10 @@ function updateCity(event) {
             <div class="time">${cityTime.format("h:mm:ss")}<small> ${cityTime.format("A")}</small></div>
         </div>`;
     }
+    // Detect user's location when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+    updateCity(); // Automatically update to the user's location
+});
 
     // Update immediately
     updateSelectedCity();
