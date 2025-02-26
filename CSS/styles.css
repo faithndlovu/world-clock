@@ -3,9 +3,10 @@ body{
     font-family: sans-serif;
 }
 .container {
-    width: 90%;
+    
     max-width: 600px;
-    padding: 300px;
+    margin: 60px auto;
+    padding: 30px;
     text-align: center;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
@@ -66,3 +67,5 @@ h2{
     font-size: 16px;
     color:rgba(0, 0, 0, 0.6); 
 }
+
+
