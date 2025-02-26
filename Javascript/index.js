@@ -62,7 +62,7 @@ function updateCity(event) {
 window.onload = function() {
     // Set default city (Cape Town or Gwanda) on page load
     updateTime("Africa/Cape_Town", "Cape Town"); // Set Cape Town as default
-    updateTime("Africa/Gwanda", "Gwanda"); // Set Gwanda as the second default city
+    
 
     // Start updating the time every second
     setInterval(() => {
