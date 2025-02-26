@@ -1,24 +1,58 @@
-function updateTime(){
-    let capeTownElement = document.querySelector("#cape-town");
-    if (capeTownElement) {
-        let capeTownDateElement = capeTownElement.querySelector(".date");
-        let capeTownTimeElement = capeTownElement.querySelector(".time");
-        let capeTownTime = moment().tz("Africa/Cape_Town");
+// Function to update the current time
+function updateTime() {
+    let defaultCityElement = document.querySelector("#default-city");
 
-        capeTownDateElement.innerHTML = capeTownTime.format("MMMM Do YYYY");
-        capeTownTimeElement.innerHTML = capeTownTime.format("h:mm:ss [<small>]A[</small>]");
+    if (defaultCityElement) {
+        let dateElement = defaultCityElement.querySelector(".date");
+        let timeElement = defaultCityElement.querySelector(".time");
+        let timezoneElement = defaultCityElement.querySelector(".timezone");
+
+        let localTimeZone = moment.tz.guess();
+        let localTime = moment().tz(localTimeZone);
+
+        timezoneElement.innerHTML = `Timezone: ${localTimeZone}`;
+        dateElement.innerHTML = localTime.format("MMMM Do YYYY");
+        timeElement.innerHTML = `${localTime.format("h:mm:ss")}<small>${localTime.format("A")}</small>`;
     }
 }
 
+// Function to detect city using IP and update time
+async function detectLocation() {
+    try {
+        let response = await fetch("https://ipapi.co/json/");
+        let data = await response.json();
+
+        let cityName = data.city;
+        let timezone = moment.tz.guess();
+        let cityTime = moment().tz(timezone);
+
+        let citiesElement = document.querySelector("#cities");
+
+        citiesElement.innerHTML = `
+            <div class="city">
+                <div>
+                    <h2>Current Location: ${cityName}</h2>
+                    <p class="timezone">Timezone: ${timezone}</p>
+                    <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
+                </div>
+                <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small></div>
+            </div>`;
+    } catch (error) {
+        console.error("Error fetching location:", error);
+        alert("Could not detect your exact location. Using default timezone.");
+        updateTime();
+    }
+}
+
+// Function to update city when user selects one
 function updateCity(event) {
     let cityTimeZone = event.target.value;
 
-    // Check if user selects "current location"
     if (cityTimeZone === "current") {
-        cityTimeZone = moment.tz.guess(); // Get user's guessed timezone
+        detectLocation(); // Detect exact location
+        return;
     }
 
-    // Extract city name (handle cases where there's no "/")
     let cityName = cityTimeZone.includes("/")
         ? cityTimeZone.split("/")[1].replace("_", " ")
         : cityTimeZone;
@@ -29,16 +63,16 @@ function updateCity(event) {
     citiesElement.innerHTML = `
         <div class="city">
             <div>
-                <h2>Current Location: ${cityName}</h2>
-                <p style="font-size: 14px; color: gray;">(Timezone: ${cityTimeZone})</p>
+                <h2>${cityName}</h2>
+                <p class="timezone">Timezone: ${cityTimeZone}</p>
                 <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
             </div>
             <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small></div>
         </div>`;
 }
 
-// Update every second
-updateTime();
+// Initial setup
+detectLocation();
 setInterval(updateTime, 1000);
 
 // Add event listener for city selection
