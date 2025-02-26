@@ -1,15 +1,16 @@
 body{
-    background-color: transparent;
+    background-color: linear-gradient(to right, #1e3c72, #2a5298);
     font-family: sans-serif;
 }
 .container{
     max-width: 600px;
     margin: 60px auto;
-    background: white;
     padding: 30px;
     box-shadow:rgba(100, 100, 111, 02) 0px 7px 29px 0px;    
      border-radius: 10px;
-}
+    background: rgba(255, 255, 255, 0.15); 
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); 
 
 .city{
     display: flex;

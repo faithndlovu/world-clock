@@ -18,7 +18,7 @@ function updateCity(event) {
 
     
     if (cityTimeZone === "current") {
-        cityTimeZone = moment.tz.guess || "Bulawayo"; 
+        cityTimeZone = moment.tz.guess(); 
     }
 
     // Extract city name safely
