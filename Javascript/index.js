@@ -1,50 +1,24 @@
-function updateTime(){
-    let capeTownElement = document.querySelector("#cape-town");
-    if (capeTownElement) {
-        let capeTownDateElement = capeTownElement.querySelector(".date");
-        let capeTownTimeElement = capeTownElement.querySelector(".time");
-        let capeTownTime = moment().tz("Africa/Cape_Town");
+// Function to update the time for a given city
+function updateTime(cityTimeZone, cityName) {
+    let cityElement = document.querySelector(`#${cityName.toLowerCase().replace(" ", "-")}`);
+    if (cityElement) {
+        let cityDateElement = cityElement.querySelector(".date");
+        let cityTimeElement = cityElement.querySelector(".time");
+        let cityTime = moment().tz(cityTimeZone);
 
-        capeTownDateElement.innerHTML = capeTownTime.format("MMMM Do YYYY");
-        capeTownTimeElement.innerHTML = capeTownTime.format("h:mm:ss [<small>]A[</small>]");
-        }
-
-        let gwandaElement = document.querySelector("#gwanda");
-    if (gwandaElement) {
-        let gwandaDateElement = gwandaElement.querySelector(".date");
-        let gwandaTimeElement = gwandaElement.querySelector(".time");
-        let gwandaTime = moment().tz("Africa/Gwanda");
-
-        gwandaDateElement.innerHTML = gwandaTime.format("MMMM Do YYYY");
-        gwandaTimeElement.innerHTML = gwandaTime.format("h:mm:ss [<small>]A[</small>]");
-        }
-        }
-// Function to update the current time
-function updateTime() {
-    let defaultCityElement = document.querySelector("#default-city");
-
-    if (defaultCityElement) {
-        let dateElement = defaultCityElement.querySelector(".date");
-        let timeElement = defaultCityElement.querySelector(".time");
-        let timezoneElement = defaultCityElement.querySelector(".timezone");
-
-        let localTimeZone = moment.tz.guess();
-        let localTime = moment().tz(localTimeZone);
-
-        timezoneElement.innerHTML = `Timezone: ${localTimeZone}`;
-        dateElement.innerHTML = localTime.format("MMMM Do YYYY");
-        timeElement.innerHTML = `${localTime.format("h:mm:ss")}<small>${localTime.format("A")}</small>`;
+        cityDateElement.innerHTML = cityTime.format("MMMM Do YYYY");
+        cityTimeElement.innerHTML = cityTime.format("h:mm:ss [<small>]A[</small>]");
     }
 }
 
-// Function to detect city using IP and update time
+// Function to detect the user's location and update time
 async function detectLocation() {
     try {
         let response = await fetch("https://ipapi.co/json/");
         let data = await response.json();
 
         let cityName = data.city;
-        let timezone = moment.tz.guess();
+        let timezone = data.timezone;
         let cityTime = moment().tz(timezone);
 
         let citiesElement = document.querySelector("#cities");
@@ -52,49 +26,42 @@ async function detectLocation() {
         citiesElement.innerHTML = `
             <div class="city">
                 <div>
-                    <h2> ${cityName}</h2>
-                 <p style="font-size: 14px; color: gray;">Timezone: ${timezone}</p>
-                  <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
+                    <h2>${cityName}</h2>
+                    <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
                 </div>
                 <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small></div>
             </div>`;
     } catch (error) {
         console.error("Error fetching location:", error);
-        alert("Could not detect your exact location. Using default timezone.");
-        updateTime();
+        alert("Could not detect your location. Using default city.");
+        updateTime("Africa/Cape_Town", "Cape Town"); // Fallback to Cape Town if location detection fails
     }
 }
 
-// Function to update city when user selects one
+// Function to update the city time when the user selects a city from the dropdown
 function updateCity(event) {
     let cityTimeZone = event.target.value;
 
     if (cityTimeZone === "current") {
-        detectLocation(); // Detect exact location
+        detectLocation(); // Detect user's location
         return;
     }
 
-    let cityName = cityTimeZone.includes("/")
-        ? cityTimeZone.split("/")[1].replace("_", " ")
-        : cityTimeZone;
-
-    let cityTime = moment().tz(cityTimeZone);
-    let citiesElement = document.querySelector("#cities");
-
-    citiesElement.innerHTML = `
-        <div class="city">
-            <div>
-                <h2>${cityName}</h2>
-                <p class="timezone" >Timezone: ${cityTimeZone}</p>
-                <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
-            </div>
-            <div class="time">${cityTime.format("h:mm:ss")}<small>${cityTime.format("A")}</small></div>
-        </div>`;
+    let cityName = cityTimeZone.split("/")[1].replace("_", " "); // Get city name from timezone (e.g., "Africa/Johannesburg" becomes "Johannesburg")
+    updateTime(cityTimeZone, cityName); // Update time for selected city
 }
 
-// Initial setup
-detectLocation();
-setInterval(updateTime, 1000);
+// Initial setup to show Cape Town and Gwanda by default
+window.onload = function () {
+    updateTime("Africa/Cape_Town", "Cape Town");
+    updateTime("Africa/Harare", "Gwanda"); // Gwanda shares the same timezone as Harare
+
+    // Start updating the time every second for all cities
+    setInterval(() => {
+        updateTime("Africa/Cape_Town", "Cape Town");
+        updateTime("Africa/Harare", "Gwanda");
+    }, 1000);
+};
 
 // Add event listener for city selection
 let citiesSelect = document.querySelector("#city");
